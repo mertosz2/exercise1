@@ -15,8 +15,13 @@ public class Wallet {
 
     private Integer id;
 
-    @JsonProperty("walletNameT")
-    @NotNull(message = "required name")
+    @JsonProperty("walletName")
+    @NotNull
     @Size(min = 1, max = 256)
     private String name;
+
+
+    private String email;
+
+
 }

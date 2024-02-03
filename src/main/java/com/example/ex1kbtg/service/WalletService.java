@@ -1,6 +1,7 @@
 package com.example.ex1kbtg.service;
 
 import com.example.ex1kbtg.dto.WalletRequest;
+import com.example.ex1kbtg.exception.DupilcationException;
 import com.example.ex1kbtg.exception.NotFoundException;
 import com.example.ex1kbtg.model.Wallet;
 import lombok.NoArgsConstructor;
@@ -16,15 +17,21 @@ public class WalletService {
 
 
     private List<Wallet> walletList = new ArrayList<>(List.of(
-            new Wallet(1,"wallet1"),
-            new Wallet(2,"wallet2"),
-            new Wallet(3,"wallet3")
+            new Wallet(1,"wallet1","123@hotmail.com"),
+            new Wallet(2,"wallet2","456@hotmail.com"),
+            new Wallet(3,"wallet3","789@hotmail.com")
     ));
     public List<Wallet> getWalletList(){
         return  walletList;
     }
 
     public Wallet createWallet(WalletRequest request){
+        walletList.stream()
+                .filter(wallet -> wallet.getEmail().equals(request.getEmail()))
+                .findFirst()
+                .ifPresent(wallet -> {
+                            throw new DupilcationException("email duplicated ");
+                        });
         Optional<Integer> maxId = walletList.stream()
                                             .map(Wallet::getId)
                                             .max(Integer::compareTo);
@@ -33,6 +40,7 @@ public class WalletService {
         Wallet wallet = new Wallet();
         wallet.setId(nextId);
         wallet.setName(request.getName());
+        wallet.setEmail(request.getEmail());
         walletList.add(wallet);
         return wallet;
 

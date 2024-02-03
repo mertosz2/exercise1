@@ -23,4 +23,14 @@ public class ApiExceptionHandler extends ResponseStatusExceptionHandler {
         return new ResponseEntity<>(apiExceptionResponse, HttpStatus.NOT_FOUND);
 
     }
+
+    @ExceptionHandler(value = {DupilcationException.class})
+    public ResponseEntity<Object> handleDupilcationException(DupilcationException e){
+        ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse(
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 }
