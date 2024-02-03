@@ -53,4 +53,19 @@ public class WalletService {
                 .orElseThrow(() -> new NotFoundException("Wallet not found by id " + id ));
     }
 
+    public Wallet updateWallet(WalletRequest request, Integer id){
+
+        for(Wallet wallet: walletList){
+            if(wallet.getId().equals(id)){
+                wallet.setName(request.getName());
+                return wallet;
+            }
+        }
+        throw new NotFoundException("Wallet id not found : " + id );
+    }
+
+    public void deleteWalletById(Integer id){
+        walletList.removeIf(wallet -> wallet.getId().equals(id));
+    }
+
 }

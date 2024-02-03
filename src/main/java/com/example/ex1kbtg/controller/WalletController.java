@@ -26,4 +26,14 @@ public class WalletController {
     public Wallet createWallet(@RequestBody WalletRequest request){
         return  walletService.createWallet(request);
     }
+
+    @PutMapping("{id}")
+    public Wallet updateWallet(@RequestBody WalletRequest request ,@PathVariable Integer id){
+        return walletService.updateWallet(request, id);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteWalletById(@PathVariable Integer id){
+        walletService.deleteWalletById(id);
+    }
 }
